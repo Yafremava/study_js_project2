@@ -38,10 +38,13 @@ window.addEventListener('DOMContentLoaded', function(){
         timerSeconds.textContent = "0" + timer.seconds;
       }
       if(timer.timeRemaining > 0){
-        setInterval(updateClock, 1000);
+        let id = setInterval(updateClock, 1000);
+        setTimeout(() => { clearInterval(id);}, 1000);
       }
+      
     }
     updateClock();
   }
+  
   countTimer('1 july 2020');
 });

@@ -31,7 +31,8 @@ window.addEventListener('DOMContentLoaded', function(){
       newYear.textContent = 'До нового года осталось: ' + timer.day +  " дней"; 
          
       if(timer.timeRemaining > 0){
-        setInterval(updateClock, 1000);
+        let id = setInterval(updateClock, 1000);
+        setTimeout(() => { clearInterval(id);}, 1000);
       }   
     }
     updateClock();
