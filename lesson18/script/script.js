@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', function(){
         
         popupContent.style.left = count*5 + 'px';
       }
-     
+      console.log('test');
     };
     popupBtn.forEach((elem) => {
       elem.addEventListener('click', () => { 
@@ -95,12 +95,16 @@ window.addEventListener('DOMContentLoaded', function(){
           flyInterval = cancelAnimationFrame(popupAnimate);
         }else {
           flyInterval = requestAnimationFrame(popupAnimate);
+         
           count = 0;
-        }   
+          
+        }
+           
       });
     });
     popupClose.addEventListener('click', () => {
       popup.style.display = 'none';
+      cancelAnimationFrame(flyInterval);
     });
   };
   togglePopup();
