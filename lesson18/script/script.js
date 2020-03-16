@@ -80,12 +80,13 @@ window.addEventListener('DOMContentLoaded', function(){
       count++;
       if(count < 35){
         popupContent.style.top = count*5 + 'px';
-        
+       
       }
       if(count < 110){
         
         popupContent.style.left = count*5 + 'px';
       }
+     
     };
     popupBtn.forEach((elem) => {
       elem.addEventListener('click', () => { 
@@ -94,6 +95,7 @@ window.addEventListener('DOMContentLoaded', function(){
           flyInterval = cancelAnimationFrame(popupAnimate);
         }else {
           flyInterval = requestAnimationFrame(popupAnimate);
+          count = 0;
         }   
       });
     });
