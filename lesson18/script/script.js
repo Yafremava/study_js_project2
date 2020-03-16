@@ -78,8 +78,13 @@ window.addEventListener('DOMContentLoaded', function(){
     const popupAnimate = () =>{
       flyInterval = requestAnimationFrame(popupAnimate);
       count++;
-      if(count < 45){
-        popupContent.style.top = count*4 + 'px';
+      if(count < 35){
+        popupContent.style.top = count*5 + 'px';
+        
+      }
+      if(count < 110){
+        
+        popupContent.style.left = count*5 + 'px';
       }
     };
     popupBtn.forEach((elem) => {
