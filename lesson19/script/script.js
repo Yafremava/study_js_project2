@@ -67,7 +67,6 @@ window.addEventListener('DOMContentLoaded', function(){
   const togglePopup = ()  =>{
     const popup = document.querySelector('.popup'),
       popupBtn = document.querySelectorAll('.popup-btn'),
-      popupClose = document.querySelector('.popup-close'),
       popupContent = document.querySelector('.popup-content');
     let count = 0,
       flyInterval;
@@ -92,10 +91,6 @@ window.addEventListener('DOMContentLoaded', function(){
           count = 0;
         }         
       }); 
-    });
-    popupClose.addEventListener('click', () => {
-      popup.style.display = 'none';
-      cancelAnimationFrame(flyInterval);
     });
     popup.addEventListener('click', () =>{
       let target = event.target;
