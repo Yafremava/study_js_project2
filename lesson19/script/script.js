@@ -101,6 +101,7 @@ window.addEventListener('DOMContentLoaded', function(){
       let target = event.target;
       if(target.classList.contains('popup-close')){
         popup.style.display = 'none';
+        cancelAnimationFrame(flyInterval);
       } else{
         target = target.closest('.popup-content');
         if(!target){
@@ -139,8 +140,7 @@ window.addEventListener('DOMContentLoaded', function(){
             }
           });
           
-        }      
-         
+        }         
     }); 
   };
   tabs();
