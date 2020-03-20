@@ -141,15 +141,23 @@ window.addEventListener('DOMContentLoaded', function(){
   tabs();
   //Slider
   const slider = () =>{
-    const slide = document.querySelectorAll('.portfolio-item'),
+    const slide = document.querySelectorAll('.portfolio-item'); 
+    const addDots = () => {
+      for(let i = 0; i <= slide.length; i++){
+        let newLi = document.createElement('li');
+        newLi.classList.add('dot');
+        let ul = document.querySelector('.portfolio-dots');
+        ul.append(newLi);
+      }
+    };
+    addDots();
+    const dot = document.querySelectorAll('.dot'),
       btn = document.querySelectorAll('.portfolio-btn'),
-      dot = document.querySelectorAll('.dot'),
       slider = document.querySelector('.portfolio-content');
-
+    dot[0].classList.add('dot-active');
     let currentSlide = 0,
-      currentDot = 0,
       interval;
-    
+    console.log(dot);
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
     };
@@ -211,16 +219,9 @@ window.addEventListener('DOMContentLoaded', function(){
         startSlide();
       }
     });
-
-
-    //dot.parentElements.removeChild(dot);
-    const addDots = () =>{
-      if(slide[currentSlide] === dot[currentDot]){
-        dot[currentDot].classList.remove('.dot');
-      }
-    };
-    addDots();
-    startSlide(1500);
+    
+    
+    startSlide(2000);
   };
   slider();
 });
