@@ -157,7 +157,6 @@ window.addEventListener('DOMContentLoaded', function(){
     dot[0].classList.add('dot-active');
     let currentSlide = 0,
       interval;
-    console.log(dot);
     const prevSlide = (elem, index, strClass) => {
       elem[index].classList.remove(strClass);
     };
