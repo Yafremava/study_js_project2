@@ -141,20 +141,25 @@ window.addEventListener('DOMContentLoaded', function(){
   tabs();
   //Slider
   const slider = () =>{
-    const slide = document.querySelectorAll('.portfolio-item'); 
+    const slide = document.querySelectorAll('.portfolio-item'), 
+    slider = document.querySelector('.portfolio-content');
+
     const addDots = () => {
-      for(let i = 0; i <= slide.length; i++){
+      let ul = document.querySelector('.portfolio-dots');
+      for(let i = 0; i < slide.length; i++){
         let newLi = document.createElement('li');
-        newLi.classList.add('dot');
-        let ul = document.querySelector('.portfolio-dots');
+        newLi.className = 'dot';
         ul.append(newLi);
+        if(i === 0) {
+          newLi.classList.add('dot-active');
+        }
       }
     };
     addDots();
-    const dot = document.querySelectorAll('.dot'),
-      btn = document.querySelectorAll('.portfolio-btn'),
-      slider = document.querySelector('.portfolio-content');
-    dot[0].classList.add('dot-active');
+
+
+    let dot = document.querySelectorAll('.dot'),
+      btn = document.querySelectorAll('.portfolio-btn');
     let currentSlide = 0,
       interval;
     const prevSlide = (elem, index, strClass) => {
@@ -182,9 +187,13 @@ window.addEventListener('DOMContentLoaded', function(){
     slider.addEventListener('click', (event) => {
       event.preventDefault();
       let target = event.target;
-      if(!target.matches('#arrow-right', '#arrow-left', '.dot')){
+      if(!target.matches('#arrow-right, #arrow-left, .dot')){  // !!!!!
         return;
       }
+
+      prevSlide(slide, currentSlide, 'portfolio-item-active');
+      prevSlide(dot, currentSlide, 'dot-active');
+
       if(target.matches('#arrow-right')){
         currentSlide++;
       }else if (target.matches('#arrow-left')){
@@ -195,7 +204,6 @@ window.addEventListener('DOMContentLoaded', function(){
             currentSlide = index;
           }
         });
-
       }
       if(currentSlide >= slide.length){
         currentSlide = 0;
