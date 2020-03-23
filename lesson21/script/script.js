@@ -249,8 +249,8 @@ window.addEventListener('DOMContentLoaded', function(){
         calcCoun = document.querySelector('.calc-coun'),
         calcDay = document.querySelector('.calc-day');
       calcSquare.value = calcSquare.value.replace (/\D/g, '');
-      calcCoun.value = calcSquare.value.replace (/\D/g, '');
-      calcDay.value = calcSquare.value.replace (/\D/g, '');
+      calcCoun.value = calcCoun.value.replace (/\D/g, '');
+      calcDay.value = calcDay.value.replace (/\D/g, '');
     };
   };
   ourCommand();
