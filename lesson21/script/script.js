@@ -243,15 +243,13 @@ window.addEventListener('DOMContentLoaded', function(){
         event.target.src = event.target.alt;
       });
     });
-     //калькулятор
-    document.oninput = function() {
-      const calcSquare = document.querySelector('.calc-square'),
-        calcCoun = document.querySelector('.calc-coun'),
-        calcDay = document.querySelector('.calc-day');
-      calcSquare.value = calcSquare.value.replace (/\D/g, '');
-      calcCoun.value = calcCoun.value.replace (/\D/g, '');
-      calcDay.value = calcDay.value.replace (/\D/g, '');
-    };
+    //калькулятор
+    const calcItem = document.querySelectorAll('.calc-item');
+    calcItem.forEach((elem) => {
+      elem.addEventListener('input', () =>{
+        elem.value = elem.value.replace (/\D/g, '');
+      });
+    });
   };
   ourCommand();
 });
