@@ -260,7 +260,7 @@ window.addEventListener('DOMContentLoaded', function(){
         countValue = 1,
         dayValue = 1;
       const typeValue = calcType.options[calcType.selectedIndex].value,
-        squareValue = calcSquare.value;
+        squareValue = +calcSquare.value;
       
       if(calcCount.value > 1){
         countValue += (calcCount.value - 1)/ 10;
