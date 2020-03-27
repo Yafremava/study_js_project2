@@ -79,16 +79,18 @@ window.addEventListener('DOMContentLoaded', function(){
       if(count < 110){
         popupContent.style.left = count*5 + 'px';
       }
-      console.log('test');
+      if(count > 110){
+        cancelAnimationFrame(flyInterval);
+        count = 0;
+      }
     };  
     popupBtn.forEach((elem) => {
       elem.addEventListener('click', () => { 
         popup.style.display = 'block';
         if(window.innerWidth < 768){
-          flyInterval = cancelAnimationFrame(popupAnimate);
+          cancelAnimationFrame(flyInterval);
         }else {
           popupAnimate();
-          count = 0;
         }         
       }); 
     });
@@ -101,6 +103,7 @@ window.addEventListener('DOMContentLoaded', function(){
         target = target.closest('.popup-content');
         if(!target){
           popup.style.display = 'none';
+          cancelAnimationFrame(flyInterval);
         }  
       }
     });
@@ -246,16 +249,16 @@ window.addEventListener('DOMContentLoaded', function(){
   };
   ourCommand();
   //калькулятор
-  const calc =() =>{
-    const calcItem = document.querySelectorAll('.calc-item'),
+  const calc = (price = 100) =>{
+    const calcInputs = document.querySelectorAll('input.calc-item'),
       calcBlock = document.querySelector('.calc-block'),
       calcType = document.querySelector('.calc-type'),
       calcSquare = document.querySelector('.calc-square'),
       calcDay = document.querySelector('.calc-day'),
       calcCount = document.querySelector('.calc-count'),
       totalValue = document.getElementById('total');
-
-    const countSum = (price = 100) => {
+    console.log(calcInputs);
+    const countSum = () => {
       let total = 0,
         countValue = 1,
         dayValue = 1;
@@ -284,7 +287,7 @@ window.addEventListener('DOMContentLoaded', function(){
         countSum();
       }
     });
-    calcItem.forEach((elem) => {
+    calcInputs.forEach((elem) => {
       elem.addEventListener('input', () =>{
         elem.value = elem.value.replace (/\D/g, '');
       });
@@ -293,36 +296,37 @@ window.addEventListener('DOMContentLoaded', function(){
   calc(100);
   //send-ajax-form
   const sendForm = () => {
-    const errorMessage = 'Что-то пошло ге так...',
+    const errorMessage = 'Что-то пошло не так...',
       loadMessage = 'Загрузка...',
       successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
-    const form = document.getElementById('form1'),
-      form2 = document.getElementById('form2'),
-      form3 = document.getElementById('form3');
+    const forms = document.querySelectorAll('form[name = user_form]');
+
 
     const statusMessage = document.createElement('div');
     statusMessage.style.cssText = 'font-size: 2rem;';
-
-    form.addEventListener('submit', () =>{
-      event.preventDefault();
-      form.appendChild(statusMessage);
-      statusMessage.textContent = loadMessage;
-      const formData = new FormData(form);
-      let body = {};
-
-      formData.forEach((val, key) => {
-        body[key] = val;
-      });
-      postData(body, () => {
-        statusMessage.textContent = successMessage;
-        
-      }, (error) => {
-        statusMessage.textContent = errorMessage;
-        console.error(error);
+    forms.forEach((item) => {
+      item.addEventListener('submit', (event)=>{
+        event.preventDefault();
+        item.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(item);
+        let body = {};
+  
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+        postData(body, () => {
+          statusMessage.textContent = successMessage;
+          
+        }, (error) => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        });
       });
     });
-    form2.addEventListener('submit', () =>{
+    
+   /*  form2.addEventListener('submit', () =>{
       event.preventDefault();
       form2.appendChild(statusMessage);
       statusMessage.textContent = loadMessage;
@@ -354,7 +358,7 @@ window.addEventListener('DOMContentLoaded', function(){
         statusMessage.textContent = errorMessage;
         console.error(error);
       });
-    });
+    }); */
     const postData = (body, outputData, errorData) =>{
       const request = new XMLHttpRequest();
       request.addEventListener('readystatechange', () =>{
@@ -382,34 +386,24 @@ window.addEventListener('DOMContentLoaded', function(){
   //reset
   const reset = () =>{
     const allInputs = document.querySelectorAll('input');
-
     allInputs.forEach((elem) => {
       elem.value = '';
     });
   };
   //валидация
   const valid = () =>{
-    const formName = document.querySelector('.form-name'),
-      formPhone = document.querySelector('.form-phone'),    
-      formPopupName = document.querySelector('#form3-name'),
-      formPopupPhone = document.querySelector('#form3-phone'),
-      topNameform = document.querySelector('.top-form'),
-      topMessageForm = document.querySelector('.mess'),
-      topPhoneForm = document.querySelector('.form-phone');
-
-      document.addEventListener('input', () => {
-        if(!event.target.matches('.form-phone') || !event.target.matches('#form3-phone') || !event.target.matches('.form-phone')){
-          formPhone.value = formPhone.value.replace (/[^\+\d]/g, '');
-          topPhoneForm.value = topPhoneForm.value.replace (/[^\+\d]/g, '');
-          formPopupPhone.value = formPopupPhone.value.replace (/[^\+\d]/g, '');
-        }
-        if(!event.target.matches('.form-name') ||!event.target.matches('.top-form') ||
-          !event.target.matches('.mess')|| !event.target.matches('#form3-name')){
-            formName.value = formName.value.replace (/[^а-яё\s]/ig, '');
-            topNameform.value = topNameform.value.replace (/[^а-яё\s]/ig, '');
-            topMessageForm.value = topMessageForm.value.replace (/[^а-яё\s]/ig, '');
-            formPopupName.value = formPopupName.value.replace (/[^а-яё\s]/ig, '');
-        }
+    const formInputs = document.querySelectorAll('form input');
+      
+      formInputs.forEach((item) =>{
+        item.addEventListener('input', () => {
+          let target = event.target;
+          let targetAttr = target.getAttribute('name');
+          if(targetAttr === 'user_phone'){
+            target.value = target.value.replace (/[^\+\d]/g, '');
+          } else if (targetAttr === 'user_name' || targetAttr === 'user_message'){
+            target.value = target.value.replace (/[^а-яё\s]/ig, '');
+          }
+        });
       });
   };
   valid();
