@@ -291,5 +291,126 @@ window.addEventListener('DOMContentLoaded', function(){
     });
   };
   calc(100);
-  
+  //send-ajax-form
+  const sendForm = () => {
+    const errorMessage = 'Что-то пошло ге так...',
+      loadMessage = 'Загрузка...',
+      successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+    const form = document.getElementById('form1'),
+      form2 = document.getElementById('form2'),
+      form3 = document.getElementById('form3');
+
+    const statusMessage = document.createElement('div');
+    statusMessage.style.cssText = 'font-size: 2rem;';
+
+    form.addEventListener('submit', () =>{
+      event.preventDefault();
+      form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form);
+      let body = {};
+
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      postData(body, () => {
+        statusMessage.textContent = successMessage;
+        
+      }, (error) => {
+        statusMessage.textContent = errorMessage;
+        console.error(error);
+      });
+    });
+    form2.addEventListener('submit', () =>{
+      event.preventDefault();
+      form2.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form2);
+      let body = {};
+
+      formData.forEach((val, key) => {
+        body[key] = val;
+      });
+      postData(body, () => {
+        statusMessage.textContent = successMessage;
+      }, (error) => {
+        statusMessage.textContent = errorMessage;
+        console.error(error);
+      });
+    });
+    form3.addEventListener('submit', () =>{
+      event.preventDefault();
+      form3.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
+      const formData = new FormData(form3);
+      let body = {};
+      for(let val of formData.entries()){
+        body[val[0]] = val[1];
+      } 
+      postData(body, () => {
+        statusMessage.textContent = successMessage;
+      }, (error) => {
+        statusMessage.textContent = errorMessage;
+        console.error(error);
+      });
+    });
+    const postData = (body, outputData, errorData) =>{
+      const request = new XMLHttpRequest();
+      request.addEventListener('readystatechange', () =>{
+        
+        if(request.readyState !== 4){
+          return;
+        }
+
+        if(request.status === 200){
+          outputData();
+        }else {
+          errorData(request.status); 
+        }
+      });
+
+      request.open('POST', './server.php');
+      request.setRequestHeader('Content-type', 'application/json'); 
+
+      request.send(JSON.stringify(body));
+      reset();
+      
+    };
+  };
+  sendForm();
+  //reset
+  const reset = () =>{
+    const allInputs = document.querySelectorAll('input');
+
+    allInputs.forEach((elem) => {
+      elem.value = '';
+    });
+  };
+  //валидация
+  const valid = () =>{
+    const formName = document.querySelector('.form-name'),
+      formPhone = document.querySelector('.form-phone'),    
+      formPopupName = document.querySelector('#form3-name'),
+      formPopupPhone = document.querySelector('#form3-phone'),
+      topNameform = document.querySelector('.top-form'),
+      topMessageForm = document.querySelector('.mess'),
+      topPhoneForm = document.querySelector('.form-phone');
+
+      document.addEventListener('input', () => {
+        if(!event.target.matches('.form-phone') || !event.target.matches('#form3-phone') || !event.target.matches('.form-phone')){
+          formPhone.value = formPhone.value.replace (/[^\+\d]/g, '');
+          topPhoneForm.value = topPhoneForm.value.replace (/[^\+\d]/g, '');
+          formPopupPhone.value = formPopupPhone.value.replace (/[^\+\d]/g, '');
+        }
+        if(!event.target.matches('.form-name') ||!event.target.matches('.top-form') ||
+          !event.target.matches('.mess')|| !event.target.matches('#form3-name')){
+            formName.value = formName.value.replace (/[^а-яё\s]/ig, '');
+            topNameform.value = topNameform.value.replace (/[^а-яё\s]/ig, '');
+            topMessageForm.value = topMessageForm.value.replace (/[^а-яё\s]/ig, '');
+            formPopupName.value = formPopupName.value.replace (/[^а-яё\s]/ig, '');
+        }
+      });
+  };
+  valid();
 });
