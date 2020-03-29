@@ -294,7 +294,7 @@ window.addEventListener('DOMContentLoaded', function(){
     });
   };
   calc(100);
-   //send-ajax-form
+    //send-ajax-form
   const sendForm = () => {
     const errorMessage = 'Что-то пошло не так...',
       loadMessage = 'Загрузка...',
@@ -316,23 +316,24 @@ window.addEventListener('DOMContentLoaded', function(){
         formData.forEach((val, key) => {
           body[key] = val;
         });
+        
         postData(body)
           .then(() =>{ 
             statusMessage.textContent = successMessage;
-            
             reset();
+            setTimeout(()=>{
+              statusMessage.remove();
+            },5000);
           })
           .catch((error) => { 
             statusMessage.textContent = errorMessage;
             setTimeout(()=>{
-              statusMessage.textContent = '';
-            },3000);
+              statusMessage.remove();
+            },5000);
             console.log(error);          
-          
           });
       });     
-    });
-      
+    });     
     const postData = (body) =>{
       return new Promise((resolve, reject) => {
         const request = new XMLHttpRequest();
