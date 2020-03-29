@@ -319,13 +319,14 @@ window.addEventListener('DOMContentLoaded', function(){
         postData(body)
           .then(() =>{ 
             statusMessage.textContent = successMessage;
+            
             reset();
           })
           .catch((error) => { 
             statusMessage.textContent = errorMessage;
             setTimeout(()=>{
               statusMessage.textContent = '';
-            },10000);
+            },3000);
             console.log(error);          
           
           });
@@ -340,7 +341,7 @@ window.addEventListener('DOMContentLoaded', function(){
           if(request.readyState !== 4){
             return;
           }
-          if(request.status !== 200){
+          if(request.status === 200){
             resolve();
           }else {
             reject(request.statusText); 
@@ -362,6 +363,9 @@ window.addEventListener('DOMContentLoaded', function(){
     allInputs.forEach((elem) => {
       elem.value = '';
     });
+    setTimeout(()=>{
+      statusMessage.textContent = '';
+    },3000);
   };
   //валидация
   const valid = () =>{
