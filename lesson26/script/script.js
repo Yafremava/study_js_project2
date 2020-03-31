@@ -257,7 +257,6 @@ window.addEventListener('DOMContentLoaded', function(){
       calcDay = document.querySelector('.calc-day'),
       calcCount = document.querySelector('.calc-count'),
       totalValue = document.getElementById('total');
-    console.log(calcInputs);
     const countSum = () => {
       let total = 0,
         countValue = 1,
@@ -310,23 +309,24 @@ window.addEventListener('DOMContentLoaded', function(){
         item.appendChild(statusMessage);
         statusMessage.textContent = loadMessage;
         const formData = new FormData(item);
-        let body = {};
-  
+        let body = {};   
         formData.forEach((val, key) => {
           body[key] = val;
-        });
-        
+        });       
         postData(body)
-          .then((response) =>{
+         .then((response) => {
             if(response.status !== 200){
-              throw new Error('status network not 200')
-            } 
+              throw new Error('status network not 200');
+            }
+            console.log(response); 
+          }) 
+          .then(() =>{            
             statusMessage.textContent = successMessage;
             reset();
             setTimeout(()=>{
               statusMessage.remove();
             },5000);
-          })
+          })         
           .catch((error) => { 
             statusMessage.textContent = errorMessage;
             setTimeout(()=>{
@@ -338,8 +338,9 @@ window.addEventListener('DOMContentLoaded', function(){
     });     
     const postData = (body) =>{
       return fetch('./server.php', {
+        method: 'POST',
         headers: {
-          'Content-type', 'application/json'
+          'Content-type': 'application/json'
         },
         body: JSON.stringify(body),
         credentials: 'include'
@@ -363,7 +364,7 @@ window.addEventListener('DOMContentLoaded', function(){
 
         request.send(JSON.stringify(body));
         
-      });  */
+      });   */
     };
   };
   sendForm();
@@ -373,9 +374,6 @@ window.addEventListener('DOMContentLoaded', function(){
     allInputs.forEach((elem) => {
       elem.value = '';
     });
-    setTimeout(()=>{
-      statusMessage.textContent = '';
-    },3000);
   };
   //валидация
   const valid = () =>{
