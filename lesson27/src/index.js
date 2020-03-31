@@ -6,7 +6,7 @@ import togglePopup from './modules/togglePopup';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
 import ourCommand from './modules/ourCommand';
-import calc from './modules/calc';
+import calc from './modules/calc.js';
 import sendForm from './modules/sendForm';
 import valid from './modules/valid';
 //Timer
